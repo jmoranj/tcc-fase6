@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+
 
 public class Controller : MonoBehaviour
 {
@@ -8,9 +10,9 @@ public class Controller : MonoBehaviour
     {
         frontWheelDrive,
         rearWheelDrive,
-        allWheelDrive 
+        allWheelDrive
     }
-    [SerializeField]private driveType drive;
+    [SerializeField] private driveType drive;
 
     internal enum gearBox
     {
@@ -42,8 +44,8 @@ public class Controller : MonoBehaviour
     public WheelCollider[] wheels = new WheelCollider[4];
     public GameObject[] wheelMesh = new GameObject[4];
     public GameObject centerOfMass;
-    private Rigidbody rigidbody;
-    
+    private Rigidbody rigidBody;
+
 
     public float[] slip = new float[4];
 
@@ -55,11 +57,11 @@ public class Controller : MonoBehaviour
 
     private void FixedUpdate()
     {
-        addDownForce();
+        getFriction();
         animateWheels();
+        addDownForce();
         calculateEnginePower();
         steerVehicle();
-        getFriction();
         shifter();
     }
     private void calculateEnginePower()
@@ -68,76 +70,50 @@ public class Controller : MonoBehaviour
 
         totalPower = enginePower.Evaluate(engineRPM) * (gears[gearNum]) * IM.vertical;
         float velocity = 0.0f;
-        engineRPM = Mathf.SmoothDamp(engineRPM, 1000 + (Mathf.Abs(wheelsRPM) * (gears[gearNum])), ref velocity, smoothTime);
+        engineRPM = Mathf.SmoothDamp(engineRPM, 1000 + (Mathf.Abs(wheelsRPM) * 3.6f * (gears[gearNum])), ref velocity, smoothTime);
+
+        moveVehicle();
     }
     private void wheelRPM()
     {
         float sum = 0;
         int R = 0;
+
         for (int i = 0; i < 4; i++)
         {
             sum += wheels[i].rpm;
             R++;
         }
         wheelsRPM = (R != 0) ? sum / R : 0;
-
-        if(wheelsRPM < 0 && !reverse)
-        {
-            reverse = true;
-            manager.changeGear();
-        }
-        else if(wheelsRPM > 0 && reverse)
-        {
-            reverse = false;
-            manager.changeGear();
-        }
     }
 
     private void shifter()
     {
-        if (isGrounded()) return;
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            Console.WriteLine(gearNum);
+            gearNum++;
+            manager.changeGear();
+        }
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            gearNum--;
+            manager.changeGear();
+        }
 
-        if(gearChange == gearBox.automatic)
-        {
-            if(engineRPM > maxRPM && gearNum < gears.Length - 1 && !reverse)
-            {
-                gearNum++;
-                manager.changeGear();
-            }
-        }
-        else
-        {
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                gearNum++;
-                manager.changeGear();
-            }
-            if (engineRPM < minRPM && gearNum > 0)
-            {
-                gearNum--;
-                manager.changeGear();
-            }
-        }
-        bool isGrounded()
-        {
-            if (wheels[0].isGrounded && wheels[1].isGrounded && wheels[2].isGrounded && wheels[3].isGrounded)
-                return true;
-            else
-                return false;
-        }
-       
     }
 
     private void moveVehicle()
     {
 
-        if(drive == driveType.allWheelDrive)
+        if (drive == driveType.allWheelDrive)
         {
             for (int i = 0; i < wheels.Length; i++)
             {
                 wheels[i].motorTorque = totalPower / 4;
             }
-        }else if(drive == driveType.rearWheelDrive)
+        }
+        else if (drive == driveType.rearWheelDrive)
         {
             for (int i = 2; i < wheels.Length; i++)
             {
@@ -152,8 +128,7 @@ public class Controller : MonoBehaviour
             }
         }
 
-        KPH = rigidbody.velocity.magnitude * 3.6f;
-
+        KPH = rigidBody.velocity.magnitude * 3.6f;
         if (IM.handBrake)
         {
             wheels[3].brakeTorque = wheels[2].brakeTorque = brakePower;
@@ -172,7 +147,7 @@ public class Controller : MonoBehaviour
             wheels[0].steerAngle = Mathf.Rad2Deg * Mathf.Atan(2.55f / (radius + (1.5f / 2))) * IM.horizontal;
             wheels[1].steerAngle = Mathf.Rad2Deg * Mathf.Atan(2.55f / (radius + (1.5f / 2))) * IM.horizontal;
         }
-        else if(IM.horizontal < 0)
+        else if (IM.horizontal < 0)
         {
             wheels[0].steerAngle = Mathf.Rad2Deg * Mathf.Atan(2.55f / (radius + (1.5f / 2))) * IM.horizontal;
             wheels[1].steerAngle = Mathf.Rad2Deg * Mathf.Atan(2.55f / (radius + (1.5f / 2))) * IM.horizontal;
@@ -189,7 +164,7 @@ public class Controller : MonoBehaviour
         Vector3 wheelPosition = Vector3.zero;
         Quaternion wheelRotation = Quaternion.identity;
 
-        for (int i = 0;i < 4; i++)
+        for (int i = 0; i < 4; i++)
         {
             wheels[i].GetWorldPose(out wheelPosition, out wheelRotation);
             wheelMesh[i].transform.position = wheelPosition;
@@ -199,15 +174,15 @@ public class Controller : MonoBehaviour
     private void getObjects()
     {
         IM = GetComponent<InputManager>();
-        rigidbody = GetComponent<Rigidbody>();
+        rigidBody = GetComponent<Rigidbody>();
         centerOfMass = GameObject.Find("Mass");
-        rigidbody.centerOfMass = centerOfMass.transform.localPosition;
+        rigidBody.centerOfMass = centerOfMass.transform.localPosition;
     }
 
     private void addDownForce()
     {
-        rigidbody.AddForce(-transform.up * DownForceValue * rigidbody.velocity.magnitude);
-       
+        rigidBody.AddForce(-transform.up * DownForceValue * rigidBody.velocity.magnitude);
+
     }
 
     private void getFriction()

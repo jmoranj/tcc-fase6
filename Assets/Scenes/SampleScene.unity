@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 428566102}
-  m_IndirectSpecularColor: {r: 0.3591945, g: 0.3616171, b: 0.33134073, a: 1}
+  m_IndirectSpecularColor: {r: 0.35919422, g: 0.36161655, b: 0.3313406, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1270,7 +1270,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7d725e2f8aa03a4882bc1c77c539d33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RR: {fileID: 0}
+  RR: {fileID: 1909629485}
   needle: {fileID: 1649776156}
   gearNum: {fileID: 612957224}
   kph: {fileID: 183401705}
@@ -7425,6 +7425,36 @@ MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 23046986221925788, guid: 6f39632663e189a43ba1dba6a3232eea, type: 3}
   m_PrefabInstance: {fileID: 1081588814}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1149651075
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1149651076}
+  m_Layer: 0
+  m_Name: Camera LookAt
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1149651076
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1149651075}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1909629484}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &1152173585 stripped
 MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 23416408963015214, guid: 6f39632663e189a43ba1dba6a3232eea, type: 3}
@@ -11017,12 +11047,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5f16653b088cac49abdf2a2668c56e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  drive: 1
-  gearChange: 1
+  drive: 2
+  gearChange: 0
   manager: {fileID: 231666469}
   totalPower: 0
-  maxRPM: 0
-  minRPM: 0
+  maxRPM: 5600
+  minRPM: 3000
   KPH: 0
   wheelsRPM: 0
   engineRPM: 0
@@ -11034,7 +11064,7 @@ MonoBehaviour:
   - 1.3
   - 0.9
   - 0.4
-  gearNum: 0
+  gearNum: 1
   brakePower: 0
   radius: 6
   DownForceValue: 100
@@ -11044,28 +11074,28 @@ MonoBehaviour:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0.050632477
-      value: 1.0480957
-      inSlope: 0.21076268
-      outSlope: 0.21076268
+      time: -1736.8112
+      value: 36.75388
+      inSlope: 0.070747875
+      outSlope: 0.070747875
       tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.5330665
-      value: 1.1497748
-      inSlope: -0.66074574
-      outSlope: -0.66074574
+      time: 4948.369
+      value: 509.7162
+      inSlope: -0.20855424
+      outSlope: -0.20855424
       tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.5852051
-      value: 1.0698853
-      inSlope: -1.5322541
-      outSlope: -1.5322541
+      time: 5934.123
+      value: 28.809875
+      inSlope: -0.48785636
+      outSlope: -0.48785636
       tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
@@ -11086,7 +11116,7 @@ MonoBehaviour:
   centerOfMass: {fileID: 2012710244}
   slip:
   - 0
-  - 4.5645647e+11
+  - 0
   - 0
   - 0
 --- !u!114 &1909629488

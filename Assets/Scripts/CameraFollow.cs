@@ -9,14 +9,14 @@ public class CameraFollow : MonoBehaviour
     private GameObject cameraConstarint;
     private GameObject cameraLookAt;
     public float speed = 0;
-    public float defaultFOV = 0,desiredFOV = 0;
+    public float defaultFOV = 0, desiredFOV = 0;
     [Range(0, 5)] public float smothTime = 0;
-    
+
     public void Awake()
     {
         Player = GameObject.FindGameObjectWithTag("Player");
-        cameraConstarint = Player.transform.Find("Camera onstraint").gameObject;
-        cameraLookAt = Player.transform.Find("camera LookAt").gameObject;
+        cameraConstarint = Player.transform.Find("Camera Constraint").gameObject;
+        cameraLookAt = Player.transform.Find("Camera LookAt").gameObject;
         RR = Player.GetComponent<Controller>();
         defaultFOV = Camera.main.fieldOfView;
     }

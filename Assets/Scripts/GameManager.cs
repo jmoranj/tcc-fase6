@@ -10,10 +10,10 @@ public class GameManager : MonoBehaviour
     public GameObject needle;
     public Text gearNum;
     public Text kph;
-    private float startPosizition = 32f, endPosition = 211f;
+    private float startPosizition = 32f, endPosition = -211f;
     private float desiredPosition;
 
-    
+
     private void FixedUpdate()
     {
         kph.text = RR.KPH.ToString("0");
@@ -24,12 +24,12 @@ public class GameManager : MonoBehaviour
     {
         desiredPosition = startPosizition - endPosition;
         float temp = RR.engineRPM / 10000;
-        needle.transform.eulerAngles = new Vector3(0,0,(startPosizition - temp * desiredPosition));
+        needle.transform.eulerAngles = new Vector3(0, 0, (startPosizition - temp * desiredPosition));
     }
 
     public void changeGear()
     {
-        gearNum.text = (!RR.reverse)? RR.gearNum.ToString() : "R";
+        gearNum.text = RR.gearNum.ToString();
     }
 
 }
