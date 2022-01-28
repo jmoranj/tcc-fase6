@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     public GameObject needle;
     public Text gearNum;
     public Text kph;
-    private float startPosizition = 32f, endPosition = -211f;
+    private float startPosizition = 247f, endPosition = -44f;
     private float desiredPosition;
 
 
